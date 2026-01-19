@@ -1,0 +1,10 @@
+<div class="app-container">
+  <nav *ngIf="isLoggedIn$ | async">
+    <a routerLink="/products">Products</a>
+    <button (click)="logout()">Logout</button>
+  </nav>
+
+  <main>
+    <router-outlet></router-outlet>
+  </main>
+</div>

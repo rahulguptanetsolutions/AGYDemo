@@ -1,0 +1,23 @@
+<div class="container">
+  <h2>Product List</h2>
+  <div class="actions">
+    <button routerLink="new">Create New Product</button>
+  </div>
+  
+  <div class="list" *ngIf="products$ | async as products; else loading">
+    <div *ngFor="let product of products" class="item">
+      <div class="info">
+        <h3>{{ product.name }}</h3>
+        <p>{{ product.description }}</p>
+        <span>{{ product.price | currency }}</span>
+      </div>
+      <div class="controls">
+        <button [routerLink]="[product.id]">Edit</button>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #loading>
+    <p>Loading products...</p>
+  </ng-template>
+</div>

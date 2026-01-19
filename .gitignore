@@ -1,0 +1,41 @@
+# .gitignore for AGYDemo
+
+# .NET Core
+bin/
+obj/
+*.user
+*.userosscache
+*.sln.docstates
+
+# Angular
+angular-poc/node_modules/
+angular-poc/dist/
+angular-poc/.angular/
+angular-poc/.editorconfig
+angular-poc/src/assets/i18n/*.json
+
+# Playwright / Automation Tests
+automation-tests/node_modules/
+automation-tests/test-results/
+automation-tests/playwright-report/
+automation-tests/blob-report/
+automation-tests/playwright/.cache/
+test_run_debug.log
+
+# IDEs
+.vs/
+.vscode/
+*.swp
+*.bak
+
+# OS
+Thumbs.db
+Desktop.ini
+
+# Logs
+logs/
+*.log
+
+# Sensitive
+.env
+appsettings.Development.json

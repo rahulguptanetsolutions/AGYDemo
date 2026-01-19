@@ -1,0 +1,31 @@
+<div class="container">
+    <h2>{{ isEditMode ? 'Edit' : 'Create' }} Product</h2>
+
+    <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input id="name" type="text" formControlName="name">
+            <div *ngIf="productForm.get('name')?.invalid && productForm.get('name')?.touched" class="error">
+                Name is required (min 3 chars).
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" formControlName="description"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="price">Price</label>
+            <input id="price" type="number" formControlName="price">
+            <div *ngIf="productForm.get('price')?.invalid && productForm.get('price')?.touched" class="error">
+                Valid price is required.
+            </div>
+        </div>
+
+        <div class="actions">
+            <button type="submit" [disabled]="productForm.invalid">{{ submitLabel }}</button>
+            <button type="button" routerLink="/products">Cancel</button>
+        </div>
+    </form>
+</div>
