@@ -14,11 +14,11 @@ REMOTE_APP_DIR="/home/ubuntu/AGYDemo"
 # Load values from .env if it exists locally
 if [ -f .env ]; then
     export $(grep -v '^#' .env | xargs)
-    EC2_IP=${EC2_IP:-"YOUR_EC2_PUBLIC_IP"}
-    SSH_KEY_PATH=${SSH_KEY_PATH:-"~/path/to/your-key.pem"}
+    EC2_IP=${EC2_IP:-"16.171.140.45"}
+    SSH_KEY_PATH=${SSH_KEY_PATH:-"scripts/keys/your-key.pem"}
 else
-    EC2_IP="YOUR_EC2_PUBLIC_IP"
-    SSH_KEY_PATH="~/path/to/your-key.pem"
+    EC2_IP="16.171.140.45"
+    SSH_KEY_PATH="scripts/keys/your-key.pem"
 fi
 
 echo "--- Starting Deployment to $EC2_IP ---"

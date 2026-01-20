@@ -39,3 +39,5 @@ logs/
 # Sensitive
 .env
 appsettings.Development.json
+scripts/keys/*.pem
+*.pem
