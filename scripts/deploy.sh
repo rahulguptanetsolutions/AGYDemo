@@ -7,11 +7,19 @@
 
 set -e
 
-# --- Configuration (Adjust these for your environment) ---
+# --- Configuration (Defaults) ---
 EC2_USER="ubuntu"
-EC2_IP="YOUR_EC2_PUBLIC_IP"
-SSH_KEY_PATH="~/path/to/your-key.pem"
 REMOTE_APP_DIR="/home/ubuntu/AGYDemo"
+
+# Load values from .env if it exists locally
+if [ -f .env ]; then
+    export $(grep -v '^#' .env | xargs)
+    EC2_IP=${EC2_IP:-"YOUR_EC2_PUBLIC_IP"}
+    SSH_KEY_PATH=${SSH_KEY_PATH:-"~/path/to/your-key.pem"}
+else
+    EC2_IP="YOUR_EC2_PUBLIC_IP"
+    SSH_KEY_PATH="~/path/to/your-key.pem"
+fi
 
 echo "--- Starting Deployment to $EC2_IP ---"
 
