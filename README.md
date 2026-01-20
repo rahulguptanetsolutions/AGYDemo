@@ -100,6 +100,16 @@ sudo docker compose up -d --build
 ```
 *The stack will be available on your EC2 Public IP.*
 
+### 4. Automated Remote Deployment (Optional)
+For a one-click deployment from your local machine:
+1. Update `scripts/deploy.sh` with your `EC2_IP` and `SSH_KEY_PATH`.
+2. Run the script:
+   ```bash
+   chmod +x scripts/deploy.sh
+   ./scripts/deploy.sh
+   ```
+   *This script syncs local files to EC2 and restarts the Docker stack remotely.*
+
 ## 📊 Observability
 The application implements SRE best practices:
 - **X-Correlation-ID**: Propagated from Frontend to Backend and included in logs/error responses.
