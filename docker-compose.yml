@@ -1,22 +1,45 @@
 services:
+  # 1. Reverse Proxy Gateway (Nginx)
+  # Acts as the entry point for all external traffic on 80 and 443
+  proxy:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - app-network
+    restart: always
+
+  # 2. Angular Frontend
+  # Serves static files internally on port 80
+  frontend:
+    build:
+      context: ./angular-poc
+      dockerfile: Dockerfile
+    networks:
+      - app-network
+    restart: always
+
+  # 3. .NET Backend API
+  # Provides business logic internally on port 5000
   backend:
     build:
       context: ./dotnet-core-api
       dockerfile: Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
+      # These variables should be provided via .env or CI/CD environment settings
       - ConnectionStrings__DefaultConnection=${DB_CONNECTION_STRING}
       - JwtSettings__Secret=${JWT_SECRET}
-    ports:
-      - "5000:5000"
+    networks:
+      - app-network
     restart: always
 
-  frontend:
-    build:
-      context: ./angular-poc
-      dockerfile: Dockerfile
-    ports:
-      - "80:80"
-    depends_on:
-      - backend
-    restart: always
+networks:
+  app-network:
+    driver: bridge
