@@ -67,6 +67,39 @@ npx playwright install chromium
 npm test
 ```
 
+## ☁️ AWS EC2 Deployment (Ubuntu 22.04)
+
+The project includes a bootstrap script and Docker orchestration for a 3-tier production environment.
+
+### 1. Provision EC2
+Launch an AWS EC2 instance with **Ubuntu 22.04 LTS**. Ensure your Security Group allows:
+- **SSH (22)**
+- **HTTP (80)**
+- **HTTPS (443)**
+
+### 2. Bootstrap the Environment
+Clone the repository and run the bootstrap script:
+```bash
+git clone https://github.com/rahulguptanetsolutions/AGYDemo.git
+cd AGYDemo
+chmod +x scripts/bootstrap-ec2.sh
+./scripts/bootstrap-ec2.sh
+```
+*This script installs Docker, Docker Compose, Nginx, and configures the firewall.*
+
+### 3. Deploy the Stack
+Create a `.env` file in the root directory with your production secrets:
+```bash
+DB_CONNECTION_STRING="Host=your-rds-host;Port=5432;Database=...;Username=...;Password=...;"
+JWT_SECRET="YourSuperSecretKeyMin32Chars"
+```
+
+Then launch the 3-tier environment:
+```bash
+sudo docker compose up -d --build
+```
+*The stack will be available on your EC2 Public IP.*
+
 ## 📊 Observability
 The application implements SRE best practices:
 - **X-Correlation-ID**: Propagated from Frontend to Backend and included in logs/error responses.
