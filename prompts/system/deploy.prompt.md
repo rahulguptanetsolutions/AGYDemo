@@ -1,5 +1,5 @@
 # Prompt Name: Deployment – system
-Version: 1.1
+Version: 1.2
 Owner: Infrastructure Team
 Last Updated: 2026-01-21
 
@@ -11,6 +11,7 @@ Standardized deployment strategy for 3-tier applications (Angular/Nginx/.NET) to
     - Ensure `.env.template` is up-to-date with placeholders for all secrets.
     - Verify `docker-compose.yml` configures network isolation and restart policies.
     - Validate `nginx.conf` acts as a reverse proxy for both Frontend and Backend.
+    - **Dynamic IP**: If EC2 IP changes, update `EC2_IP` in `.env` and `deploy.sh`.
 
 2.  **Infrastructure (Bootstrap)**:
     - Use `bootstrap-ec2.sh` to install Docker, Compose, and Nginx on the target host.
