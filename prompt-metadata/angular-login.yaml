@@ -1,0 +1,12 @@
+id: angular-login
+name: Angular Login Implementation
+version: 1.1.0
+author: Rahul Gupta
+description: Prompt for generating secure Angular login components.
+tags:
+  - frontend
+  - angular
+  - auth
+last_updated: 2026-01-21
+prompts:
+  - frontend/angular-login.prompt.md

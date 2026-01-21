@@ -1,0 +1,12 @@
+id: api-design
+name: API Design Strategy
+version: 1.0.0
+author: Rahul Gupta
+description: Guidelines for creating .NET 9 Clean Architecture APIs.
+tags:
+  - backend
+  - csharp
+  - clean-architecture
+last_updated: 2026-01-21
+prompts:
+  - backend/api-design.prompt.md

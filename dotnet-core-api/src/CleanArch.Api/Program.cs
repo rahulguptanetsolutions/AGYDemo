@@ -5,6 +5,9 @@ using Serilog;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using OpenTelemetry.Metrics;
+using Serilog.Sinks.PostgreSQL;
+using Serilog.Sinks.PostgreSQL.ColumnWriters;
+using NpgsqlTypes;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,10 +26,32 @@ builder.Services.AddOpenTelemetry()
         .AddConsoleExporter());
 
 // Add Serilog
+// Configure Serilog with PostgreSQL
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+IDictionary<string, ColumnWriterBase> columnWriters = new Dictionary<string, ColumnWriterBase>
+{
+    { "message", new RenderedMessageColumnWriter(NpgsqlTypes.NpgsqlDbType.Text) },
+    { "message_template", new MessageTemplateColumnWriter(NpgsqlTypes.NpgsqlDbType.Text) },
+    { "level", new LevelColumnWriter(true, NpgsqlTypes.NpgsqlDbType.Varchar) },
+    { "raise_date", new TimestampColumnWriter(NpgsqlTypes.NpgsqlDbType.TimestampTz) },
+    { "exception", new ExceptionColumnWriter(NpgsqlTypes.NpgsqlDbType.Text) },
+    { "properties", new LogEventSerializedColumnWriter(NpgsqlTypes.NpgsqlDbType.Jsonb) },
+    { "props_search", new PropertiesColumnWriter(NpgsqlTypes.NpgsqlDbType.Jsonb) }
+};
+
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
     .Enrich.FromLogContext()
     .WriteTo.Console()
+    .WriteTo.PostgreSQL(
+        connectionString: connectionString,
+        tableName: "Logs",
+        columnOptions: columnWriters,
+        needAutoCreateTable: true,
+        schemaName: "public",
+        useCopy: true
+    )
     .CreateLogger();
 
 builder.Host.UseSerilog();
